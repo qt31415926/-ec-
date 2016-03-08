@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 
 export default (props)=>{
+  let title = "{ec}";
   return (
     <div className="game-menu">
+    <h2>{title}</h2>
     <p>
       Rules: Select {props.subtypes} cards.<br/> A valid selection: each attribute = all unique <strong>OR</strong> all conform.
     </p>
