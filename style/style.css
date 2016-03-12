@@ -45,7 +45,7 @@ svg {
   box-shadow: 0 0 20px blue;
 }
 
-.card-container:hover {
+.card-container:hover :focus {
     -webkit-box-shadow: 0 0 20px grey;
 }
 
@@ -61,18 +61,18 @@ svg {
   }
 
   15% {
-    -webkit-transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
-    transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+    -webkit-transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -5deg);
+    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -5deg);
   }
 
   30% {
-    -webkit-transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
-    transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+    -webkit-transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 3deg);
+    transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 3deg);
   }
 
   45% {
-    -webkit-transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
-    transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+    -webkit-transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -3deg);
+    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -3deg);
   }
 
   60% {
@@ -98,18 +98,18 @@ svg {
   }
 
   15% {
-    -webkit-transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
-    transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+    -webkit-transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -5deg);
+    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -5deg);
   }
 
   30% {
-    -webkit-transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
-    transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+    -webkit-transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 3deg);
+    transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 3deg);
   }
 
   45% {
-    -webkit-transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
-    transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+    -webkit-transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -3deg);
+    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -3deg);
   }
 
   60% {
