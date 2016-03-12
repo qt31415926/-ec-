@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
+import CanvasCard from './canvas_card.js';
 
 class Card extends Component{
 
@@ -7,70 +8,24 @@ class Card extends Component{
     super(props);
   }
 
-  drawObject(attrs){
-    let height = 25;
-    let width = 25;
-    let shape = attrs["shape"];
-//    console.log("Card: drawObject", shape);
-    let colour = attrs["colour"];
+  static propTypes = {
+    card: React.PropTypes.shape({
+      attributes: React.PropTypes.shape({
+        colour: React.PropTypes.string.isRequired,
+        shape: React.PropTypes.string.isRequired,
+        number: React.PropTypes.string.isRequired,
+        background: React.PropTypes.string,
+        fill: React.PropTypes.string
+      }).isRequired
+    }).isRequired
+  };
 
-    if (shape=='hexagon'){
-      return (
-        <svg >
-        <polygon points="6.25,24.2 18.75,24.2 25,12.1 18.75,0 6.25,0 0,12.1" fill={colour}/>
-        </svg>
-      );
-    }
-
-    if (shape=='star'){
-      return (
-        <svg >
-        <polygon  points="0,22 25,22 12,0" fill={colour}/>
-        </svg>
-      );
-    }
-
-    if (shape=='triangle'){
-      return (
-        <svg >
-          <polygon points="0,22 25,22 12,0" fill={colour}/>
-        </svg>
-      );
-    }
-    if (shape=='square'){
-      return(
-        <svg>
-          <rect height={height} width={width} fill={colour}/>
-        </svg>
-      );
-    }
-    if (shape=='circle'){
-      return(
-        <svg>
-          <circle cy={height/2} cx={width/2} r={height/2} fill={colour}/>
-        </svg>
-      );
-    }
-  }
-
-  drawImage(){
-    const {select, card} = this.props;
-    let obj = this.drawObject(card.attributes);
-    let svgs = [];
-    //console.log("in Card, drawImage: cardattrsnumber", card.attributes['number']);
-    let numCards = card.attributes['number'] == null? 1 : card.attributes['number'];
-    for (let i = 0; i < numCards; i++){
-      svgs.push(obj);
-    }
-    return(
-      <div key={card.id}>
-        {svgs}
-      </div>
-    );
-  }
 
   render(){
-    const {select, card} = this.props;
+    const {select, selected, card} = this.props;
+    const attributes = card.attributes;
+    const height = 108;
+    const width = 108;
 
     var clicked = false;
     if (select != null) clicked = ()=>select(card.id);
@@ -78,16 +33,16 @@ class Card extends Component{
     var cardClass = classNames({
       'cant-select': !clicked,
       'card-container': true,
-      'selected': card.selected
+      'selected': selected
     });
-
 
     return (
       <li onClick={clicked}  className={cardClass}>
-        <div className="inside">
-      {this.drawImage()}
-        </div>
-      
+          <CanvasCard width={width}
+                      height={height}
+                      colour={attributes.colour}
+                      shape={attributes.shape}
+                      number={attributes.number}/>
       </li>
     );
   }

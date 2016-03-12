@@ -75,7 +75,7 @@ function equality(set){
 export function compareIds(list){
   return function(id){
     for (let i = 0; i < list.length; i++){
-      if (id.id==list[i].id){
+      if (id.id==list[i]){
         return false;
       }
     }

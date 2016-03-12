@@ -38,7 +38,6 @@ export default function(state = defaultState, action){
       })
       return nextState;
 
-
     default:
       Object.assign(nextState, state, {
         deck: createCards(state.qualities, state.subtypes),

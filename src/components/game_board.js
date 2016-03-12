@@ -12,6 +12,7 @@ class GameBoard extends Component{
 
     this.state={
       numShown: this.defaultNum,
+      selected: [],
       showFeedback: "none"
     }
 
@@ -19,24 +20,40 @@ class GameBoard extends Component{
     this.increaseVisibleCards = this.increaseVisibleCards.bind(this);
     this.restartGame = this.restartGame.bind(this);
     this.visualFeedback = this.visualFeedback.bind(this);
+    this.selectCard = this.selectCard.bind(this);
   }
 
+  selectCard(id){
+    const {selected} = this.state;
+    let index = selected.indexOf(id);
+    let newSelected = selected.slice();
+    if (index==-1){
+      newSelected.push(id);
+      this.setState({
+        selected: newSelected
+      })
+    } else {
+      newSelected.splice(index);
+      this.setState({
+        selected: newSelected
+      })
+    }
+  }
   //method that resolves a find attempt
   //does multiple things: passes selected cards to action, can change number of cards shown
   attemptFind(){
-    let selected = [];
-    for (let i = 0; i < this.props.deck.length; i++){
-      if (this.props.deck[i].selected){
-        selected.push(this.props.deck[i]);
-      }
-    }
+    const {selected} = this.state;
+    const {deck} = this.props;
     if (selected.length < this.props.subtypes){
       this.setState({
         showFeedback: "not enough"
       })
       return;
     }
-    if (verify(selected)){
+    let cardsSelected = deck.filter((card)=>{
+      return selected.indexOf(card.id)!=-1;
+    })
+    if (verify(cardsSelected)){
       this.props.actions.foundGroup(true, selected);
       if (this.state.numShown > this.defaultNum){
         this.setState({
@@ -44,7 +61,8 @@ class GameBoard extends Component{
         });
       };
       this.setState({
-        showFeedback: "correct"
+        showFeedback: "correct",
+        selected: []
       })
     }else {
       this.props.actions.foundGroup(false, selected);
@@ -63,7 +81,8 @@ class GameBoard extends Component{
 
   restartGame(){
     this.setState({
-      numShown: this.defaultNum
+      numShown: this.defaultNum,
+      selected: []
     })
     this.props.actions.restartGame();
   }
@@ -82,13 +101,10 @@ class GameBoard extends Component{
   
   render(){
     const {deck, actions, subtypes} = this.props;
+    const {selected} = this.state;
 
-    let numSelected = 0;
-    for (let i = 0; i < deck.length; i++){
-      if (deck[i].selected){
-        numSelected++;
-      } 
-    };
+    let numSelected = selected.length;
+
     let ifMax = numSelected == subtypes ? true : false;
     let visibleDeck = deck.slice(0, this.state.numShown);
 
@@ -105,14 +121,15 @@ class GameBoard extends Component{
         </div>
 
 
-        <div className="col-md-9">
+        <div className="col-md-10">
           <ul>
             {
               visibleDeck.map(card => 
                         <Card
                           key = {card.id}
                           card = {card}
-                          select = {ifMax && !card.selected ? null : actions.selectCard}
+                          select = {ifMax && (selected.indexOf(card.id)==-1)? null : this.selectCard}
+                          selected = {(selected.indexOf(card.id)==-1)? false : true}
                           />
                       )
             }
