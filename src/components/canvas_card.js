@@ -2,10 +2,6 @@ import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
-const positions = [
-  [0,0],
-  []
-]
 
 class CanvasCard extends Component{
   constructor(props){
@@ -30,7 +26,10 @@ class CanvasCard extends Component{
     }
   }
 
-  componentDidUpdate(nextProps){
+
+  componentDidUpdate(){
+    const {selected} = this.props;
+    this.glowOnSelect(this.ctx, selected);
     this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.drawCard(this.ctx);
   }
@@ -78,12 +77,13 @@ class CanvasCard extends Component{
         break;
       case "circle":
         return function(x_pos, y_pos, radius){
-          ctx.beginPath();
-          ctx.arc(x_pos+radius/2, y_pos+radius/2, radius/2, 0, 2*Math.PI);
-          ctx.fillStyle = fillPattern;
-          ctx.strokeStyle = colour;
-          ctx.fill();
-          ctx.stroke();
+          drawPolygon(x_pos, y_pos, radius, 50, 0);
+          //ctx.beginPath();
+          //ctx.arc(x_pos+radius/2, y_pos+radius/2, radius/2, 0, 2*Math.PI);
+          //ctx.fillStyle = fillPattern;
+          //ctx.strokeStyle = colour;
+          //ctx.fill();
+          //ctx.stroke();
         };
         break;
       case "triangle":
@@ -135,11 +135,12 @@ class CanvasCard extends Component{
       return;
     }
     //the edge objects are padded by 2 pixels
+    const pad = 5;
     const positions = [
-      [width/2-radius/2, 2], //top
-      [width/2-radius/2, height-radius-2], //bottom
+      [width/2-radius/2, pad], //top
+      [width/2-radius/2, height-radius-pad], //bottom
       [width/2-radius/2,height/2-radius/2], //middle
-      [2,height/2-radius/2], //left
+      [pad,height/2-radius/2], //left
       [width-radius,height/2-radius/2] //right
     ];
     let drawPos = [];
@@ -188,8 +189,24 @@ class CanvasCard extends Component{
     this.drawMultiple(shapeFunction, this.props.number, height, width, radius);
   }
 
+  glowOnSelect(ctx, selected){
+    if (selected){
+      ctx.shadowBlur = 3;
+      ctx.lineWidth = 2;
+      ctx.shadowOffsetX= 4;
+      ctx.shadowOffsetY = 2;
+    } else{
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = 1;
+      ctx.shadowOffsetX= 0;
+      ctx.shadowOffsetY = 0;
+
+    }
+    ctx.shadowColor = "black";
+  }
 
   render(){
+
     return(
       <canvas ref={(ref) => this.myCanvas = ref}
               width={this.props.width}

@@ -33,7 +33,7 @@ class Card extends Component{
     var cardClass = classNames({
       'cant-select': !clicked,
       'card-container': true,
-      'selected': selected
+//      'selected': selected
     });
 
     return (
@@ -42,7 +42,8 @@ class Card extends Component{
                       height={height}
                       colour={attributes.colour}
                       shape={attributes.shape}
-                      number={attributes.number}/>
+                      number={attributes.number}
+                      selected={selected}/>
       </li>
     );
   }

@@ -33,7 +33,9 @@ class GameBoard extends Component{
         selected: newSelected
       })
     } else {
-      newSelected.splice(index);
+      newSelected = selected.filter((item)=>{
+        return item!=id;
+      });
       this.setState({
         selected: newSelected
       })

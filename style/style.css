@@ -37,15 +37,6 @@ svg {
   -webkit-box-shadow: 0 0 0px grey;
 }
 
-.selected {
-  -webkit-box-shadow:0 0 30px blue !important;
-  -moz-box-shadow 0 0 20px blue;
-  box-shadow: 0 0 20px blue;
-}
-
-.card-container:hover :focus {
-    -webkit-box-shadow: 0 0 20px grey;
-}
 
 .game-menu{
   float: left;
