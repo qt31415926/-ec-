@@ -8,6 +8,7 @@ import reducers from './reducers';
 const store = applyMiddleware()(createStore);
 
 render(
+  
   <Provider store={store(reducers)}>
     <Game/>
   </Provider>

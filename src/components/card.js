@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 import CanvasCard from './canvas_card.js';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 class Card extends Component{
 
   constructor(props){
     super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
   }
 
   static propTypes = {
@@ -33,7 +35,7 @@ class Card extends Component{
     var cardClass = classNames({
       'cant-select': !clicked,
       'card-container': true,
-//      'selected': selected
+      'selected': selected
     });
 
     return (
@@ -43,7 +45,7 @@ class Card extends Component{
                       colour={attributes.colour}
                       shape={attributes.shape}
                       number={attributes.number}
-                      selected={selected}/>
+                      selected={false}/>
       </li>
     );
   }
