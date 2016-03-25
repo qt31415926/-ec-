@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 import CanvasCard from './canvas_card.js';
+import CanvasFill from './canvas_fill.js';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 class Card extends Component{
@@ -24,13 +25,13 @@ class Card extends Component{
 
 
   render(){
-    const {select, selected, card} = this.props;
+    const {selectFunction, selected, card} = this.props;
     const attributes = card.attributes;
     const height = 108;
     const width = 108;
 
     var clicked = false;
-    if (select != null) clicked = ()=>select(card.id);
+    if (selectFunction != null) clicked = ()=>selectFunction(card.id); //Changes CSS depending if card is selectable or not.
 
     var cardClass = classNames({
       'cant-select': !clicked,
@@ -40,11 +41,14 @@ class Card extends Component{
 
     return (
       <li onClick={clicked}  className={cardClass}>
+          <CanvasFill size={5} id={card.id} fill={attributes.fill} colour={attributes.colour} fill={attributes.fill}/>
           <CanvasCard width={width}
                       height={height}
                       colour={attributes.colour}
                       shape={attributes.shape}
                       number={attributes.number}
+                      fill={attributes.fill}
+                      cardId={card.id}
                       selected={false}/>
       </li>
     );

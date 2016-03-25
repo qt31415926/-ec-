@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Card from './card';
 import GameMenu from './game_menu';
-import {verify} from '../helpers/card_functions';
+import {verify} from '../../helpers/card_functions';
 import AnimatedText from './animated_text';
 
 class GameBoard extends Component{
@@ -13,6 +13,7 @@ class GameBoard extends Component{
     this.state={
       numShown: this.defaultNum,
       selected: [],
+      score: 0,
       showFeedback: "none"
     }
 
@@ -64,6 +65,7 @@ class GameBoard extends Component{
       };
       this.setState({
         showFeedback: "correct",
+        score: this.state.score+1,
         selected: []
       })
     }else {
@@ -84,6 +86,7 @@ class GameBoard extends Component{
   restartGame(){
     this.setState({
       numShown: this.defaultNum,
+      score: 0,
       selected: []
     })
     this.props.actions.restartGame();
@@ -103,7 +106,7 @@ class GameBoard extends Component{
   
   render(){
     const {deck, actions, subtypes} = this.props;
-    const {selected} = this.state;
+    const {selected, score} = this.state;
 
     let numSelected = selected.length;
 
@@ -115,7 +118,7 @@ class GameBoard extends Component{
       <div>
         <div className="col-md-2">
           <div className="row">
-            <GameMenu subtypes={subtypes} find={this.attemptFind} deck={visibleDeck} restart={this.restartGame} showMore={this.increaseVisibleCards}/>
+            <GameMenu subtypes={subtypes} find={this.attemptFind} deck={visibleDeck} restart={this.restartGame} showMore={this.increaseVisibleCards} score={score}/>
           </div>
           <div className="row">
             {this.visualFeedback()}
@@ -130,7 +133,7 @@ class GameBoard extends Component{
                         <Card
                           key = {card.id}
                           card = {card}
-                          select = {ifMax && (selected.indexOf(card.id)==-1)? null : this.selectCard}
+                          selectFunction = {ifMax && (selected.indexOf(card.id)==-1)? null : this.selectCard}
                           selected = {(selected.indexOf(card.id)==-1)? false : true}
                           />
                       )

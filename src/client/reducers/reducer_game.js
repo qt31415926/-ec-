@@ -1,9 +1,9 @@
-import {createCards, compareIds} from '../helpers/card_functions';
-import * as actions from '../helpers/action_types';
+import {createCards, compareIds} from '../../helpers/card_functions';
+import * as actions from '../actions/action_types';
 
 const defaultState = {
   subtypes: 3,
-  qualities: ['colour',  'shape', 'number'],
+  qualities: ['colour',  'shape', 'number', 'fill'],
   deck: [],
 };
 

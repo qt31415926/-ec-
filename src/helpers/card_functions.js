@@ -3,9 +3,9 @@ import _ from 'lodash';
 var allQualities = {
   colour: ['blue', 'orange', 'purple', 'red', 'green'],
   shape: ['square', 'circle', 'triangle', 'hexagon', 'star'],
-  number: ['1', '2', '3', '4','5', '6'],
-//  lines: ['up', 'down', 'left', 'right'],
-//  pattern: ['empty', 'solid', 'polka', 'striped', 'square']
+  number: ['1', '2', '3', '4','5'],
+  fill: ['hollow', 'solid', 'stripes', 'diamond', 'squiggly']
+  //background: ['empty', 'earth', 'air', 'fire', 'water']
 }
 
 export function createCards(qualities, subtypes){

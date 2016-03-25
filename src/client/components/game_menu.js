@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 
 export default (props)=>{
   let title = "{ec}";
+  let sets = props.score !== 1 ? "sets" : "set";
   return (
     <div className="game-menu">
     <h2>{title}</h2>
     <p>
-      Rules: Select {props.subtypes} cards.<br/> A valid selection: each attribute = all unique <strong>OR</strong> all conform.
+      You found: {props.score} {sets}!
     </p>
       <button className="btn" onClick={props.find}>i found one!</button>
       <br/>

@@ -1,4 +1,4 @@
-import * as types from '../helpers/action_types'
+import * as types from './action_types'
 
 export function selectCard(id){
   return {
