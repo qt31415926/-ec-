@@ -1,24 +1,23 @@
 import React, {Component} from 'react';
 import Card from './card';
 import GameMenu from './game_menu';
-import {verify} from '../../helpers/card_functions';
+import {verify} from '../helpers/card_functions';
 import AnimatedText from './animated_text';
 
 class GameBoard extends Component{
   constructor(props){
     super(props);
     console.log("gameboard props", props);
-    this.defaultNum =  this.props.subtypes*(this.props.subtypes+1);
+    this.defaultNum = this.props.subtypes*(this.props.subtypes+1);
 
-    this.state={
-      numShown: this.defaultNum,
+    this.state = {
       selected: [],
       score: 0,
       showFeedback: "none"
     }
 
     this.attemptFind = this.attemptFind.bind(this);
-    this.increaseVisibleCards = this.increaseVisibleCards.bind(this);
+    this.showMore = this.showMore.bind(this);
     this.restartGame = this.restartGame.bind(this);
     this.visualFeedback = this.visualFeedback.bind(this);
     this.selectCard = this.selectCard.bind(this);
@@ -42,8 +41,9 @@ class GameBoard extends Component{
       })
     }
   }
+
   //method that resolves a find attempt
-  //does multiple things: passes selected cards to action, can change number of cards shown
+  //does multiple things: passes selected cards to ction, can change number of cards shown
   attemptFind(){
     const {selected} = this.state;
     const {deck} = this.props;
@@ -57,35 +57,27 @@ class GameBoard extends Component{
       return selected.indexOf(card.id)!=-1;
     })
     if (verify(cardsSelected)){
-      this.props.actions.foundGroup(true, selected);
-      if (this.state.numShown > this.defaultNum){
-        this.setState({
-          numShown: this.state.numShown - this.props.subtypes
-        });
-      };
+      this.props.actions.foundGroup(selected);
       this.setState({
         showFeedback: "correct",
         score: this.state.score+1,
         selected: []
       })
-    }else {
-      this.props.actions.foundGroup(false, selected);
+    } else {
       this.setState({
         showFeedback: "wrong"
       })
     }
   }
 
-  //increases the number of cards shown
-  increaseVisibleCards(){
-    this.setState({
-      numShown: this.state.numShown+this.props.subtypes
-    })
+  showMore(){
+    const {subtypes} = this.props;
+    console.log(this.props.actions.changeVisible);
+    this.props.actions.changeVisible((subtypes));
   }
 
   restartGame(){
     this.setState({
-      numShown: this.defaultNum,
       score: 0,
       selected: []
     })
@@ -105,27 +97,24 @@ class GameBoard extends Component{
   }
   
   render(){
-    const {deck, actions, subtypes} = this.props;
+    const {deck, subtypes, numVisible} = this.props;
     const {selected, score} = this.state;
 
     let numSelected = selected.length;
+    console.log(numVisible);
 
     let ifMax = numSelected == subtypes ? true : false;
-    let visibleDeck = deck.slice(0, this.state.numShown);
+    let visibleDeck = deck.slice(0, numVisible);
 
 
     return(
       <div>
         <div className="col-md-2">
           <div className="row">
-            <GameMenu subtypes={subtypes} find={this.attemptFind} deck={visibleDeck} restart={this.restartGame} showMore={this.increaseVisibleCards} score={score}/>
-          </div>
-          <div className="row">
+            <GameMenu subtypes={subtypes} find={this.attemptFind} deck={visibleDeck} restart={this.restartGame} showMore={this.showMore} score={score}/>
             {this.visualFeedback()}
           </div>
         </div>
-
-
         <div className="col-md-10">
           <ul>
             {

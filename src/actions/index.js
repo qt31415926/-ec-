@@ -13,10 +13,23 @@ export function restartGame(){
   };
 }
 
-export function foundGroup(correct, selected){
+export function foundGroup(selected){
   return{
     type: types.FOUND_GROUP,
-    correct,
     selected
   };
+}
+
+export function changeQualities(newQualities){
+  return{
+    type: types.CHANGE_QUALITIES,
+    newQualities
+  }
+}
+
+export function changeSubtypes(newSubtypes){
+  return{
+    type: types.CHANGE_SUBTYPES,
+    newSubtypes
+  }
 }

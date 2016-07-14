@@ -1,13 +1,14 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   entry: [
 		'webpack-dev-server/client?http://0.0.0.0:8080', // WebpackDevServer host and port
 		'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-    './src/client/index.js'
+    './src/client.js',
   ],
   output: {
-    path: __dirname,
+    path: path.resolve(__dirname, "dist"),
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -25,6 +26,6 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './'
+    contentBase: path.resolve(__dirname, "dist")
   }
 };
