@@ -1,5 +1,5 @@
 # What kind of game?
-a card game
+a pattern matching card game
 
 ##how to install##
 
