@@ -7,7 +7,7 @@ import Game from './containers/game.js'
 import Home from './containers/Home.js'
 import './App.css';
 
-const store = applyMiddleware()(createStore);
+const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 const Balls = () => (
   <div> O O</div>
@@ -34,7 +34,7 @@ const Menu = () => (
 class App extends Component {
   render() {
     return (
-      <Provider store={store(reducers)}>
+      <Provider store={store}>
         <div className="App">
           <BrowserRouter>
             {Menu}
