@@ -11,11 +11,13 @@ var allQualities = {
 export function createCards(qualities, subtypes){
   let cards = [];
   let total = Math.pow(subtypes, qualities.length);
-  
-  let currQualities = _.mapValues(allQualities, (obj)=>{
-    return obj.slice(0, subtypes);
-  })
-  let keys = Object.keys(allQualities);
+  const currQualities = {}
+  for (const key in allQualities) {
+    if (qualities.includes(key)) {
+      currQualities[key] = allQualities[key].slice(0, subtypes)
+    }
+  }
+  let keys = Object.keys(currQualities);
   let attrs = cartesianProduct(currQualities);
   attrs = _.shuffle(attrs);
   attrs = attrs.map((attr)=>{
@@ -25,7 +27,6 @@ export function createCards(qualities, subtypes){
   for (let i = 0; i < total; i++){
     cards.push({
       id: i,
-      selected: false,
       attributes: attrs[i]
     });
   }
@@ -80,5 +81,47 @@ export function compareIds(list){
       }
     }
     return true;
+  }
+}
+
+export function deckFilter(deck) {
+}
+
+export function selectCard(deck, cardId) {
+  const cardIndex = deck.findIndex((card) => card.id === cardId)
+  const oldCard = deck[cardIndex]
+  const newCard = { ...oldCard, selected: oldCard.selected ? false: true} 
+  deck[cardIndex] = newCard;
+  return deck;
+}
+
+// Swaps the cards to be removed with unseen cards, then removes the swapped cards.
+// Problems: Careful case where there are less cards in the deck than the max limit visible
+export function removeCards(deck, cardsToRemove, numVisible) {
+  let toRemoveIndices= []
+  let numRemoved = cardsToRemove.length;
+  for (let i = 0; i < deck.length; i++) {
+    if (cardsToRemove.includes(deck[i].id)) {
+      toRemoveIndices.push(i)
+    }
+  }
+  // Swap the cards that are to be removed with the next available cards
+  // If there are not enough cards left to swap, simply filter them out:
+  if (numVisible < deck.length) {
+    let newDeck = [...deck];
+    for (let i = 0; i < numRemoved; i++) {
+      let n = toRemoveIndices[i];
+      let temp = newDeck[numVisible+i];
+      newDeck[numVisible+i] = deck[n]
+      newDeck[n] = temp;
+    }
+    newDeck.splice(numVisible, numRemoved)
+    return newDeck
+  } else {
+    return deck.filter((card) => {
+      if (cardsToRemove.includes(card.id)) {
+        return false
+      } return true
+    })
   }
 }

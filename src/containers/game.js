@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {selectCard, restartGame, foundGroup, changeQualities, changeSub, changeVisible } from "../redux/game";
+import {clickCard, restartGame, foundGroup, changeQualities, changeSub, changeVisible } from "../redux/game";
 import {bindActionCreators} from 'redux';
 import GameBoard from '../components/game_board';
 
@@ -13,7 +13,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   return {
     actions: bindActionCreators({
-      selectCard,
+      clickCard,
       restartGame,
       foundGroup,
       changeQualities,

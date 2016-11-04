@@ -1,7 +1,7 @@
-import {createCards, compareIds} from '../helpers/card_functions';
+import {createCards, compareIds, selectCard, removeCards} from '../helpers/card_functions';
 
 const defSubtypes = 3;
-const defQualities = ['colour',  'shape', 'number', 'fill'];
+const defQualities = ['colour',  'shape', 'number'];
 const defVisible = defSubtypes*(defSubtypes+1);
 
 const defaultState = {
@@ -22,7 +22,7 @@ export const CHANGE_VISIBLE = 'CHANGE_VISIBLE';
 
 //Action creators
 
-export function selectCard(id){
+export function clickCard(id){
   return {
     type: CARD_SELECTED,
     id: id
@@ -68,37 +68,34 @@ export function changeVisible(quantity){
 export default function(state = defaultState, action){
   let nextState = {};
   const defaultVisible = state.subtypes*(state.subtypes+1);
-  let newVisible;
+  let newNumVisible;
   switch (action.type){
     case CARD_SELECTED:
       Object.assign(nextState, state, {
-        deck: state.deck.map((card)=>{
-          if (card.id===action.id){
-            return Object.assign({}, card, {selected: card.selected ? false: true});
-          } else return card;
-        })
+        deck: selectCard(state.deck, action.id)  
       });
       return nextState;
 
     case FOUND_GROUP:
       console.log("FOUND GROUP");
       const selected = action.selected;
-      const newDeck = state.deck.filter(compareIds(selected));
-      newVisible = state.numVisible;
+      newNumVisible = state.numVisible;
       if (state.numVisible > defaultVisible){
-        newVisible -= state.subtypes;
+        newNumVisible -= state.subtypes;
       }
+
+      const newDeck = removeCards(state.deck, action.selected, newNumVisible)
       Object.assign(nextState, state, {
         deck: newDeck,
-        numVisible: newVisible,
+        numVisible: newNumVisible,
       });
       return nextState;
 
     case GAME_RESTART:
-      newVisible = defaultVisible;
+      newNumVisible = defaultVisible;
       Object.assign(nextState, state, {
         deck: createCards(state.qualities, state.subtypes),
-        numVisible: newVisible,
+        numVisible: newNumVisible,
       });
       return nextState;
 
@@ -111,10 +108,10 @@ export default function(state = defaultState, action){
       return nextState;
 
     case CHANGE_VISIBLE:
-      console.log(newVisible);
-      newVisible = state.numVisible + action.quantity;
+      console.log(newNumVisible);
+      newNumVisible = state.numVisible + action.quantity;
       Object.assign(nextState, state, {
-        numVisible: newVisible
+        numVisible: newNumVisible
       });
       return nextState;
 
