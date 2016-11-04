@@ -5,6 +5,16 @@ function firstLetterCaps(string) {
   return string[0].toUpperCase() + string.substr(1)
 }
 
+const UNIQUE = 0;
+const EQUIVALENT = 1;
+const WRONG = 2;
+
+const messages = [
+  "All are unique!",
+  "All are equivalent!",
+  "Uh oh :("
+];
+
 const SelectionStatus = function(props) {
   const results = []
   for (const attr in props.cards[0].attributes) {
@@ -15,21 +25,33 @@ const SelectionStatus = function(props) {
     }
     let result = ""
     if (Unique(set)) {
-      result = "All are unique!"
+      result = UNIQUE;
     } else if (Equality(set)) {
-      result = "All are equivalent!"
+      result = EQUIVALENT;
     } else {
-      result = "Uh oh :("
+      result = WRONG;
     }
     results.push([firstLetterCaps(attr), result])
   }
 
+
+  let borderStyle = { padding: "7px", margin: "15px" }
+
+  if (results.find((res) => {
+    return res[1] === WRONG
+  })) {
+    borderStyle.border = "2px solid red"
+  } else {
+    borderStyle.border = "2px solid green"
+  }
+
   return (
-    <div>
+    <div style={borderStyle}>
       {
         results.map((attr) => {
+          const color = attr[1] === UNIQUE || attr[1] === EQUIVALENT ? "green" : "red"
           return (
-            <p>{attr[0]}: {attr[1]}</p>
+            <p>{attr[0]}: <strong style={{ color }}>{messages[attr[1]]}</strong></p>
           )
         })
       }

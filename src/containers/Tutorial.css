@@ -1,0 +1,23 @@
+.tutorial-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-section {
+  display: flex;
+  flex-direction: row;
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+
+.example-cards {
+  align-self: center;
+}
+
+.example-status {
+  align-self: center;
+}
+
+.example-status_border {
+  border: 2px solid #2b2b2b;
+}
